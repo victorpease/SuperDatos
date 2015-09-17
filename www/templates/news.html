@@ -1,0 +1,12 @@
+<ion-view view-title="Noticias">
+    <ion-header-bar class="bar-stable">
+        <h1 class="title">Noticias</h1>
+    </ion-header-bar>
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="noticia in notas" 
+                      ui-sref='app.detail({id:"{{noticia.id}}"})'>
+                {{noticia.doc.fecha}}-{{noticia.doc.resumen}}</ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
