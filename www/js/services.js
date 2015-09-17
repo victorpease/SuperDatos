@@ -1,9 +1,9 @@
 angular.module('service',[])
 .factory('db',['$q','$rootScope',DbService]);
     function DbService($q,$rootScope){
-        var key = 'bentareadyessharyinessee';
-        var pass = 'OnEixgKgpt8LyEtl0S5DkAon';
-        var remote = 'https://'+key+':'+pass+'@supermio.cloudant.com/news';
+        var key = 'xxxxxxxxxxxx';
+        var pass = 'xxxxxxxxxxxxxxxxxxxxxxx';
+        var remote = 'https://'+key+':'+pass+'@server.cloudant.com/news';
         var db;
         var user;
         var initiated=false;        
