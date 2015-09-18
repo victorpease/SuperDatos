@@ -11,7 +11,7 @@ angular.module('controller',['service'])
                 ['db',
                  '$scope',
                  '$state',
-                 'noticia',DetailController]);
+                 'noticia',DetailController])
     .controller('splashController',
                 ['$state',
                  'status',SplashController])
