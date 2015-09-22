@@ -6,6 +6,8 @@ angular.module('controller',['service'])
 	.controller('newsController',
                 ['$scope',
                  '$state',
+                 'db',
+                 'catId',
                  'noticias',NewsController])
 	.controller('detailController',
                 ['db',
@@ -23,8 +25,13 @@ angular.module('controller',['service'])
     function MenuController($scope,$state,cats){
         $scope.cats = cats.rows;
     };
-    function NewsController($scope,$state,noticias){        
-        $scope.notas=noticias.rows;
+    function NewsController($scope,$state,db,catId,noticias){        
+        console.log('las noticias: '+JSON.stringify(noticias));
+        if (noticias.docs)
+            $scope.notas=noticias.docs;
+        else 
+            $scope.notas=noticias.rows;
+        console.log('las lineas: '+JSON.stringify($scope.notas));
         $scope.$on('db:changed',
             function(event,changed){
             $state.go('.', null, { reload: true });

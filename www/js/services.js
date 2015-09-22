@@ -1,9 +1,9 @@
 angular.module('service',[])
 .factory('db',['$q','$rootScope',DbService]);
     function DbService($q,$rootScope){
-        var key = 'xxxxxxxxxxxx';
-        var pass = 'xxxxxxxxxxxxxxxxxxxxxxx';
-        var remote = 'https://'+key+':'+pass+'@server.cloudant.com/news';
+        var key = 'xxxxxxxxxxxxxx';
+        var pass = 'xxxxxxxxxxxxxxxxxxxx';
+        var remote = 'https://'+key+':'+pass+'@xxxxxxxxxxxxx.cloudant.com/news';
         var db;
         var user;
         var initiated=false;        
@@ -34,8 +34,12 @@ angular.module('service',[])
                 user = userId;
             },
             init: function(){
-                if (!db) db = new PouchDB('news',{adapter:'websql'});
-                this.replicate();
+                if (!db) db = new PouchDB('news',{adapter:'idb'});
+                db.info().then(function (result) {
+                    alert(JSON.stringify(result));
+                }).catch(function (err) {
+                    console.log(err);
+                });
                 return true;
             },
             replicate: function(){
@@ -45,10 +49,10 @@ angular.module('service',[])
                                         filter:'news/leidos',
                                         query_params:{'user':user}})
                 .on('change',function(info){
-                    console.log('Evento Chage:'+JSON.stringify(info));
+                    console.log('Evento Change:'+JSON.stringify(info));
                 })
-                .on('paused',function(){
-                    console.log('Evento Paused:');
+                .on('paused',function(err){
+                    console.log('Evento Paused:'+JSON.stringify(err));
                 })
                 .on('complete',function(info){
                     console.log('Evento Complete:'+JSON.stringify(info));
@@ -81,15 +85,28 @@ angular.module('service',[])
             },
             getNews: function(catId){
                 if (!db) this.init();
-                if (catId)
+                console.log('Consultando noticias del id:'+catId);
+                if (catId){
+                    console.log('Consultando categoria : '+catId);
                     return db.query('news/topic',
                                     {key:[catId],
                                      include_docs:true,
                                      descending:true});
+                }
                 else return db.allDocs({startkey:'news_\uffff',
                                         endkey:'news_',
                                         descending: true,
                                         include_docs:true});
+            },
+            getNewsFind: function(catId){
+                if (!db) this.init();
+                if (catId){
+                    console.log('Find records for : '+catId);
+                    return db.find({selector:{topic:catId,tipo:'news'}});
+                } else {
+                    console.log('Find all records ');
+                    return db.find({selector:{tipo:'news'}});
+                };
             },
             putRead: function(pnewsId){
                 var doc = {

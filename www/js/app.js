@@ -1,5 +1,5 @@
 angular.module('starter', ['ionic','controller','service','ngCordova'])
-.run(function($ionicPlatform,$cordovaDevice,$cordovaSplashscreen,$state,db) {
+.run(function($ionicPlatform,$cordovaDevice,$state,db) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -14,12 +14,17 @@ angular.module('starter', ['ionic','controller','service','ngCordova'])
           id = $cordovaDevice.getUUID();
       };
       db.setUser(id);
+      console.log('usuario fijado: '+id);
+      db.replicate();
+      console.log('replicación iniciada');
       $state.go('app.news',{status:'loading'});
+      console.log('ya fue al estado news');
   });
 })
 .run(function($rootScope,$state,$cordovaLocalNotification){
     $rootScope.$on('db:newNews',function(event,args){
         var id = new Date().getMilliseconds();
+        console.log('Voy a registrar la notificacion');
         $cordovaLocalNotification.schedule({
             id: id,
             title: 'Super Datos',
@@ -56,6 +61,9 @@ angular.module('starter', ['ionic','controller','service','ngCordova'])
             status: function($stateParams){
                 return $stateParams.status;
             }
+        },
+        onEnter: function(){
+            console.log('Entrando al estado splash');
         }
     })
         .state('app',{
@@ -71,6 +79,9 @@ angular.module('starter', ['ionic','controller','service','ngCordova'])
             cats: function(db){
                 return db.getCats();
             }
+        },
+        onEnter: function(){
+            console.log('Entrando al estado app');
         }
     })
         .state('app.news', {
@@ -85,7 +96,13 @@ angular.module('starter', ['ionic','controller','service','ngCordova'])
         resolve:{
             noticias:function($stateParams,db){
                 return db.getNews($stateParams.catId);
+            },
+            catId:function($stateParams){
+                return $stateParams.catId;
             }
+        },
+        onEnter: function(){
+            console.log('Entrando al estado app.news');
         }
     })
         .state('app.detail', {
@@ -101,6 +118,9 @@ angular.module('starter', ['ionic','controller','service','ngCordova'])
             noticia: function($stateParams,db){
                 return db.get($stateParams.id);
             }
+        },
+        onEnter: function(){
+            console.log('Entrando al estado app.detail');
         }
     });
     $urlRouterProvider.otherwise('/splash');
