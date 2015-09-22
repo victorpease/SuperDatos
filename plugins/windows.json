@@ -1,0 +1,33 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "com.ionic.keyboard": {
+            "PACKAGE_NAME": "SuperDatos"
+        },
+        "cordova-plugin-android-support-v4": {
+            "PACKAGE_NAME": "SuperDatos"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "SuperDatos"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "SuperDatos"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "SuperDatos"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "SuperDatos"
+        },
+        "de.appplant.cordova.plugin.local-notification": {
+            "PACKAGE_NAME": "SuperDatos"
+        }
+    },
+    "dependent_plugins": {}
+}
